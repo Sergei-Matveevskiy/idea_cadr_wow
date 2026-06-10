@@ -504,7 +504,16 @@
         /* Устанавливаем равную ширину для всех трех колонок данных и параметров */
         .comparison-table th { background: rgba(0,0,0,0.2); font-weight: 700; color: var(--text-muted); width: 25%; }
         
-        .comparison-table .highlight-col { background: rgba(255, 107, 0, 0.05); color: var(--text-main); border-left: 2px solid var(--accent-orange); border-right: 2px solid var(--accent-orange); }
+        .comparison-table .highlight-col { 
+            background: rgba(255, 107, 0, 0.05); 
+            color: var(--text-main); 
+            border-left: 2px solid var(--accent-orange); 
+            border-right: 2px solid var(--accent-orange); 
+        }
+        /* Дорисовываем нижнюю оранжевую рамку для самой последней строки таблицы */
+        .comparison-table tr:last-child td.highlight-col {
+            border-bottom: 2px solid var(--accent-orange);
+        }
         .comparison-table th.highlight-col { color: var(--accent-orange); border-top: 2px solid var(--accent-orange); }
         
         .comparison-text { text-align: center; font-size: 1.15rem; font-weight: 600; color: var(--text-main); margin-top: 20px; max-width: 800px; margin-left: auto; margin-right: auto;}
@@ -891,7 +900,7 @@
                             </div>
                         </div>
                         <div class="portfolio-body">
-                            <h4>Стилистическое оформление ресторана</h4>
+                            <h4>Стилистическое оформление меню ресторана</h4>
                             <div class="portfolio-info"><strong>Срок реализации:</strong> до 2 дней</div>
                         </div>
                     </div>
