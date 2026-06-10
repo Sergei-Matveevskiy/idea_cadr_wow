@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ИИ-контент, который работает на вас</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        
+        /* Плавная прокрутка для якорных ссылок меню */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        :root {
+            --bg-color: #0b0c10;
+            --card-bg: #141722;
+            --text-main: #ffffff;
+            --text-muted: #94a3b8;
+            --accent-orange: #ff6b00;
+            --accent-hover: #e05e00;
+            --border-color: #222738;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            padding-top: 70px; /* Отступ под фиксированное меню */
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Навигационное меню (Навбар) */
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: rgba(11, 12, 16, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            padding: 16px 0;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: var(--accent-orange);
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-orange);
+        }
+
+        /* Элементы управления мобильным меню */
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            color: var(--text-main);
+        }
+
+        .close-menu {
+            display: none;
+            cursor: pointer;
+            color: var(--text-muted);
+            position: absolute;
+            top: 24px;
+            right: 24px;
+        }
+
+        /* Кнопки */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--accent-orange);
+            color: #ffffff;
+            padding: 16px 36px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 24px rgba(255, 107, 0, 0.3);
+        }
+
+        .btn:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(255, 107, 0, 0.45);
+        }
+
+        /* Главный экран (Hero) */
+        .hero {
+            padding: 80px 0 80px 0;
+            position: relative;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 48px;
+            align-items: center;
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .hero-content h1 {
+            font-size: 3.8rem;
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #ffffff 60%, var(--accent-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-content p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            max-width: 540px;
+        }
+
+        /* Стили для плиток в Hero */
+        .hero-tiles {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 40px;
+            width: 100%;
+        }
+
+        .hero-tile {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .hero-tile:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-orange);
+        }
+
+        .hero-tile-icon {
+            color: var(--accent-orange);
+            margin-bottom: 12px;
+        }
+
+        .hero-tile-icon svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        .hero-tile-title {
+            font-weight: 700;
+            font-size: 1.05rem;
+            margin-bottom: 4px;
+            color: var(--text-main);
+            line-height: 1.2;
+        }
+
+        .hero-tile-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .hero-image {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            background: #1a1d29;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Преимущества */
+        .features {
+            padding: 100px 0;
+            background: linear-gradient(180deg, var(--bg-color) 0%, #0f111a 100%);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 60px;
+            letter-spacing: -0.5px;
+            scroll-margin-top: 100px; /* Отступ для якорей */
+        }
+
+        .section-title span {
+            color: var(--accent-orange);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+            margin-bottom: 40px;
+        }
+
+        .feature-card {
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-orange);
+        }
+
+        .feature-number {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--accent-orange);
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        /* Стили для иконок преимуществ */
+        .feature-icon-wrapper {
+            color: var(--accent-orange);
+            margin-bottom: 16px;
+        }
+        
+        .feature-icon-wrapper svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        .meta-disclaimer {
+            font-size: 0.9rem;
+            color: #526175;
+            text-align: center;
+            margin-top: 24px;
+        }
+
+        /* Портфолио */
+        .portfolio {
+            padding: 100px 0;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .portfolio-sub-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-left: 4px solid var(--accent-orange);
+            padding-left: 16px;
+        }
+
+        .portfolio-section {
+            margin-bottom: 80px;
+        }
+
+        .portfolio-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 32px;
+        }
+
+        .portfolio-card {
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .media-container {
+            width: 100%;
+            height: 440px; /* Увеличенная высота для предотвращения обрезки плеера */
+            background-color: #1a1d29;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Карусель изображений */
+        .carousel {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #1a1d29;
+        }
+        
+        .carousel-track {
+            display: flex;
+            transition: transform 0.4s ease-in-out;
+            height: 100%;
+        }
+        
+        .carousel-track img {
+            min-width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            border: none;
+            padding: 10px 14px;
+            cursor: pointer;
+            z-index: 10;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: background 0.3s ease;
+        }
+        
+        .carousel-btn.prev { left: 10px; }
+        .carousel-btn.next { right: 10px; }
+        .carousel-btn:hover { background: var(--accent-orange); }
+
+        .portfolio-body {
+            padding: 32px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .portfolio-body h4 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            line-height: 1.3;
+        }
+
+        .portfolio-info {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .portfolio-info strong {
+            color: var(--text-main);
+        }
+
+        .card-disclaimer {
+            font-size: 0.85rem;
+            color: #526175;
+            margin-top: auto;
+            padding-top: 16px;
+            font-style: italic;
+        }
+
+        .style-list {
+            list-style: none;
+            margin: 12px 0;
+        }
+
+        .style-list li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 6px;
+            color: var(--text-muted);
+        }
+
+        .style-list li::before {
+            content: "—";
+            position: absolute;
+            left: 0;
+            color: var(--accent-orange);
+        }
+
+        /* Контакты */
+        .contacts {
+            padding: 120px 0;
+            background: radial-gradient(circle at center, #141722 0%, var(--bg-color) 100%);
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            scroll-margin-top: 80px;
+        }
+
+        .contacts h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 24px;
+        }
+
+        .contacts p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 40px auto;
+        }
+
+        /* Футер */
+        footer {
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.9rem;
+            color: #475569;
+        }
+
+        /* Стили для таблиц, этапов и тарифов */
+        .comparison-section { padding: 40px 0 60px; }
+        
+        /* Подсказка для скролла таблицы на мобильных */
+        .table-hint {
+            display: none;
+            text-align: center;
+            color: var(--accent-orange);
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            background: rgba(255, 107, 0, 0.05);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px dashed rgba(255, 107, 0, 0.3);
+            animation: pulseHint 2s infinite;
+        }
+
+        @keyframes pulseHint {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+
+        .table-responsive { overflow-x: auto; margin-bottom: 24px; border-radius: 12px; border: 1px solid var(--border-color); background: var(--card-bg); }
+        .comparison-table { width: 100%; min-width: 800px; border-collapse: collapse; text-align: left; table-layout: fixed; }
+        .comparison-table th, .comparison-table td { padding: 16px 20px; border-bottom: 1px solid var(--border-color); }
+        
+        /* Устанавливаем равную ширину для всех трех колонок данных и параметров */
+        .comparison-table th { background: rgba(0,0,0,0.2); font-weight: 700; color: var(--text-muted); width: 25%; }
+        
+        .comparison-table .highlight-col { background: rgba(255, 107, 0, 0.05); color: var(--text-main); border-left: 2px solid var(--accent-orange); border-right: 2px solid var(--accent-orange); }
+        .comparison-table th.highlight-col { color: var(--accent-orange); border-top: 2px solid var(--accent-orange); }
+        
+        .comparison-text { text-align: center; font-size: 1.15rem; font-weight: 600; color: var(--text-main); margin-top: 20px; max-width: 800px; margin-left: auto; margin-right: auto;}
+
+        .roadmap-section { padding: 100px 0; border-top: 1px solid var(--border-color); }
+        .roadmap-container { position: relative; max-width: 800px; margin: 0 auto; padding-left: 40px; }
+        .roadmap-container::before { content: ''; position: absolute; top: 0; bottom: 0; left: 10px; width: 2px; background: var(--border-color); }
+        .roadmap-step { position: relative; margin-bottom: 40px; }
+        .roadmap-step:last-child { margin-bottom: 0; }
+        .roadmap-step::before { content: ''; position: absolute; top: 6px; left: -36px; width: 14px; height: 14px; border-radius: 50%; background: var(--accent-orange); box-shadow: 0 0 0 4px var(--bg-color); }
+        .roadmap-step h4 { font-size: 1.3rem; color: var(--text-main); margin-bottom: 8px; }
+        .roadmap-step p { color: var(--text-muted); font-size: 1.05rem; }
+
+        .pricing-section { padding: 100px 0; border-top: 1px solid var(--border-color); }
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 32px; margin-bottom: 32px; }
+        .pricing-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 40px; }
+        .pricing-card h3 { font-size: 1.5rem; color: var(--accent-orange); margin-bottom: 24px; text-align: center; }
+        .pricing-table { width: 100%; border-collapse: collapse; }
+        .pricing-table td { padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); color: var(--text-muted); }
+        .pricing-table td:last-child { text-align: right; color: var(--text-main); font-weight: 600; }
+        .pricing-table tr:last-child td { border-bottom: none; }
+        .pricing-image-text { font-size: 1.2rem; text-align: center; margin-bottom: 16px; color: var(--text-main); font-weight: 600;}
+        .pricing-image-discount { text-align: center; color: var(--accent-orange); font-weight: 500;}
+        .pricing-disclaimer { text-align: center; color: #526175; font-size: 0.85rem; font-style: italic; max-width: 800px; margin: 0 auto; }
+
+        /* Адаптивность и Мобильная версия */
+        @media (max-width: 992px) {
+            /* Кнопка "Гамбургер" для открытия меню */
+            .menu-toggle {
+                display: block;
+            }
+
+            /* Крестик для закрытия меню */
+            .close-menu {
+                display: block;
+            }
+
+            /* Навбар превращается в модалку, выезжающую СПРАВА */
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                background-color: #141722;
+                border-left: 1px solid var(--border-color);
+                flex-direction: column;
+                padding: 80px 40px;
+                gap: 28px;
+                transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                z-index: 2000;
+                box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            /* Главный экран превращается в Flex, аватарка встает НАВЕРХ перед текстом */
+            .hero-grid {
+                display: flex;
+                flex-direction: column;
+                text-align: left;
+                gap: 40px;
+            }
+
+            .hero-content {
+                order: 2;
+                align-items: flex-start;
+            }
+
+            .hero-image {
+                order: 1; /* Аватарка первая по счету сверху */
+                width: 100%;
+                max-width: 340px;
+                margin: 0 auto;
+            }
+
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+
+            /* Показываем нативную подсказку для скролла таблицы */
+            .table-hint {
+                display: block;
+            }
+
+            .hero-tiles {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-content h1 {
+                font-size: 2.3rem;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+            .portfolio-sub-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="nav-logo">Идея. Кадр. Вау!</div>
+            
+            <div class="nav-links">
+                <div class="close-menu" onclick="toggleMenu()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </div>
+                <a href="#features">Преимущества</a>
+                <a href="#portfolio">Портфолио</a>
+                <a href="#roadmap">Этапы</a>
+                <a href="#pricing">Тарифы</a>
+                <a href="#contacts">Контакты</a>
+            </div>
+
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <svg width="30" height="20" viewBox="0 0 30 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="0" y1="2" x2="30" y2="2"></line><line x1="0" y1="10" x2="30" y2="10"></line><line x1="0" y1="18" x2="30" y2="18"></line></svg>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <h1>ИИ-контент, который работает на вас</h1>
+                    <p>От идеи до готового ролика за 2–5 дней. Рекламные креативы, поздравления, анимация книг и контент для соцсетей.</p>
+                    
+                    <div style="width: 100%; text-align: center;">
+                        <a href="https://t.me/sergei_detroit" target="_blank" class="btn">
+                            <svg style="margin-right: 8px;" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                            Написать в Telegram
+                        </a>
+                    </div>
+                    
+                    <div class="hero-tiles">
+                        <div class="hero-tile">
+                            <div class="hero-tile-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            </div>
+                            <div class="hero-tile-title">От 2 дней</div>
+                            <div class="hero-tile-desc">Быстрый результат</div>
+                        </div>
+                        <div class="hero-tile">
+                            <div class="hero-tile-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                            </div>
+                            <div class="hero-tile-title">В 3-5 раз дешевле</div>
+                            <div class="hero-tile-desc">Чем классический продакшн</div>
+                        </div>
+                        <div class="hero-tile">
+                            <div class="hero-tile-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5"></circle><circle cx="17.5" cy="10.5" r=".5"></circle><circle cx="8.5" cy="7.5" r=".5"></circle><circle cx="6.5" cy="12.5" r=".5"></circle><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.836-.437-1.124-.293-.312-.492-.727-.492-1.188 0-1.004.855-1.812 1.906-1.812H16c3.277 0 6-2.723 6-6 0-5.5-4.5-10-10-10z"></path></svg>
+                            </div>
+                            <div class="hero-tile-title">Любой стиль</div>
+                            <div class="hero-tile-desc">От фотореализма до мультфильма</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="Image/Avatarka.png" alt="ИИ-креатив">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">3 причины заказать <span>контент</span></h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="feature-number">01</span>
+                    <div class="feature-icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path></svg>
+                    </div>
+                    <h3>Скорость</h3>
+                    <p>Традиционная анимация занимает недели и месяцы. ИИ-продакшн — от 2 дней. Вы получаете готовый материал быстрее, чем конкуренты успеют запустить съемки.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-number">02</span>
+                    <div class="feature-icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"></path><path d="M4 6v12c0 1.1.9 2 2 2h14v-4"></path><path d="M18 12a2 2 0 0 0-2 2c0 1.1.9 2 2 2h4v-4h-4z"></path></svg>
+                    </div>
+                    <h3>Бюджет</h3>
+                    <p>Стоимость в 3-5 раз ниже классического видеопродакшена. Вы платите за результат, а не за аренду студии и оборудования.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-number">03</span>
+                    <div class="feature-icon-wrapper" style="transform: rotate(90deg); display: inline-block; transform-origin: center;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="20" x2="4" y2="10"></line><line x1="4" y1="6" x2="4" y2="4"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="20" y1="20" x2="20" y2="14"></line><line x1="20" y1="10" x2="20" y2="4"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
+                    </div>
+                    <h3>Гибкость</h3>
+                    <p>Любые стили: от фотореализма до мультфильма. Легкие правки без пересъемок. Контент адаптируется под Instagram*, YouTube, сайт или презентацию.</p>
+                </div>
+            </div>
+            <div class="meta-disclaimer">
+                * Принадлежит компании Meta, запрещенной на территории Российской Федерации.
+            </div>
+        </div>
+    </section>
+
+    <section class="comparison-section">
+        <div class="container">
+            <h2 class="section-title">Почему работают <span>со мной?</span></h2>
+            
+            <div class="table-hint">← Листайте таблицу вбок →</div>
+            
+            <div class="table-responsive">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Параметр</th>
+                            <th class="highlight-col">Работа со мной</th>
+                            <th>Съемки</th>
+                            <th>Другие ИИ-креаторы</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Стоимость 30 сек</td>
+                            <td class="highlight-col">5 000 ₽</td>
+                            <td>50 000–150 000 ₽</td>
+                            <td>5 000–20 000 ₽</td>
+                        </tr>
+                        <tr>
+                            <td>Сроки</td>
+                            <td class="highlight-col">2–5 дней</td>
+                            <td>2–4 недели</td>
+                            <td>3–7 дней</td>
+                        </tr>
+                        <tr>
+                            <td>Полный цикл</td>
+                            <td class="highlight-col">Сценарий, генерация, профессиональная озвучка и монтаж. Готовый файл</td>
+                            <td>Да</td>
+                            <td>Часто неудачная озвучка, монтаж</td>
+                        </tr>
+                        <tr>
+                            <td>Правки</td>
+                            <td class="highlight-col">1 раунд правок бесплатно в рамках ТЗ</td>
+                            <td>Дорого, пересъёмка</td>
+                            <td>Часто платно</td>
+                        </tr>
+                        <tr>
+                            <td>Консистентность</td>
+                            <td class="highlight-col">Контроль лиц и стиля на протяжении всего ролика</td>
+                            <td>Кастинг, грим</td>
+                            <td>Часто «плывёт» лицо/стиль</td>
+                        </tr>
+                        <tr>
+                            <td>Коммуникация</td>
+                            <td class="highlight-col">Прямая связь со мной. Ответ до 2 часов</td>
+                            <td>Менеджер, брифинги</td>
+                            <td>Часто через посредника</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="comparison-text">Вы платите не за видео, а за готовое решение, которое работает на ваш бизнес. Без студий, актёров и месяцев ожидания</p>
+        </div>
+    </section>
+
+    <section class="portfolio" id="portfolio">
+        <div class="container">
+            <h2 class="section-title"><span>Портфолио</span></h2>
+
+            <div class="portfolio-section">
+                <h3 class="portfolio-sub-title">
+                    <svg style="margin-right: 8px; color: var(--accent-orange); vertical-align: middle;" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.2 6 3 11l-.9-2.4c-.3-1.1.4-2.2 1.5-2.5l13.5-4c1.1-.3 2.2.4 2.5 1.5l.1.4Z"></path><path d="m6.2 5.3 3.1 3.9"></path><path d="m12.4 3.4 3.1 4"></path><path d="M3 11h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"></path></svg>
+                    Видео-ролики
+                </h3>
+                <div class="portfolio-grid">
+                    
+                    <div class="portfolio-card">
+                        <div class="media-container">
+                            <iframe src="https://drive.google.com/file/d/1SaenCVEW5-8y7Nqh1T2VS9NnwG1a1EK_/preview" width="100%" height="100%" frameborder="0" allow="autoplay" allowfullscreen></iframe>
+                        </div>
+                        <div class="portfolio-body">
+                            <h4>Design Lab</h4>
+                            <div class="portfolio-info"><strong>Задача:</strong> трансформация прихожей до и после — показываем работу дизайн‑студии.</div>
+                            <div class="portfolio-info"><strong>Срок реализации:</strong> до 3 дней</div>
+                        </div>
+                    </div>
+
+                    <div class="portfolio-card">
+                        <div class="media-container">
+                            <iframe src="https://drive.google.com/file/d/1tVhsgQnJ-j8fPGH-tPjn81Mvs87NpUK-/preview" width="100%" height="100%" frameborder="0" allow="autoplay" allowfullscreen></iframe>
+                        </div>
+                        <div class="portfolio-body">
+                            <h4>UGC-контент как альтернатива видеообзору</h4>
+                            <div class="portfolio-info"><strong>Задача:</strong> рост рейтинга продавца за счет повышения доверия к товару.</div>
+                            <div class="portfolio-info"><strong>Применение:</strong> SERM-маркетинг, социальные сети.</div>
+                            <div class="portfolio-info"><strong>Срок реализации:</strong> до 3 дней</div>
+                            <div class="card-disclaimer">Пример на условном товаре — адаптирую под ваш бренд</div>
+                        </div>
+                    </div>
+
+                    <div class="portfolio-card">
+                        <div class="media-container">
+                            <iframe src="https://drive.google.com/file/d/18VcEhMHXsoiAbyPL8aqaKEapRh6zd1JR/preview" width="100%" height="100%" frameborder="0" allow="autoplay" allowfullscreen></iframe>
+                        </div>
+                        <div class="portfolio-body">
+                            <h4>Стильный рекламный промо-ролик, вдохновленный Nike</h4>
+                            <div class="portfolio-info"><strong>Задача:</strong> создание динамичного брендового контента с фокусом на эстетику и ритм движения.</div>
+                            <div class="portfolio-info"><strong>Срок реализации:</strong> до 3 дней</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="portfolio-section">
+                <h3 class="portfolio-sub-title">
+                    <svg style="margin-right: 8px; color: var(--accent-orange); vertical-align: middle;" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                    Графика и изображения
+                </h3>
+                <div class="portfolio-grid">
+                    
+                    <div class="portfolio-card">
+                        <div class="media-container" style="height: 350px;">
+                            <div class="carousel" data-slide="0">
+                                <div class="carousel-track">
+                                    <img src="Image/1.png" alt="Карточка 1">
+                                    <img src="Image/2.png" alt="Карточка 2">
+                                    <img src="Image/3.png" alt="Карточка 3">
+                                    <img src="Image/4.jpeg" alt="Карточка 4">
+                                    <img src="Image/5.jpeg" alt="Карточка 5">
+                                </div>
+                                <button class="carousel-btn prev" onclick="moveSlide(this, -1)">&#10094;</button>
+                                <button class="carousel-btn next" onclick="moveSlide(this, 1)">&#10095;</button>
+                            </div>
+                        </div>
+                        <div class="portfolio-body">
+                            <h4>Карточки товара вместо фотосъёмки и дизайна</h4>
+                            <div class="portfolio-info"><strong>Преимущества:</strong> быстро, недорого, эффективно.</div>
+                            <div class="portfolio-info"><strong>Применение:</strong> для маркетплейса, сайта, социальных сетей, рекламы и т.д.</div>
+                            <div class="portfolio-info"><strong>Срок реализации:</strong> до 2 дней</div>
+                        </div>
+                    </div>
+
+                    <div class="portfolio-card">
+                        <div class="media-container" style="height: 350px;">
+                            <div class="carousel" data-slide="0">
+                                <div class="carousel-track">
+                                    <img src="Image/Image1.jpg" alt="Арт 1">
+                                    <img src="Image/Image2.jpg" alt="Арт 2">
+                                    <img src="Image/Image3.jpg" alt="Арт 3">
+                                    <img src="Image/Image4.jpg" alt="Арт 4">
+                                    <img src="Image/Image5.jpg" alt="Арт 5">
+                                </div>
+                                <button class="carousel-btn prev" onclick="moveSlide(this, -1)">&#10094;</button>
+                                <button class="carousel-btn next" onclick="moveSlide(this, 1)">&#10095;</button>
+                            </div>
+                        </div>
+                        <div class="portfolio-body" style="padding-top: 12px;">
+                            <h4>Хотите увидеть себя или свой продукт в мультяшном стиле?</h4>
+                            <div class="portfolio-info">Я превращу ваши фото в настоящие произведения искусства:</div>
+                            <ul class="style-list">
+                                <li>в обаятельном стиле Pixar</li>
+                                <li>с эстетикой Симпсонов</li>
+                                <li>в пластилиновом исполнении</li>
+                                <li>или в любом другом стиле</li>
+                            </ul>
+                            <div class="portfolio-info"><strong>Срок реализации:</strong> до 1 дня</div>
+                            <div class="card-disclaimer">Пример выполнен на основе стокового изображения, доступного для коммерческого использования</div>
+                        </div>
+                    </div>
+
+                    <div class="portfolio-card">
+                        <div class="media-container" style="height: 350px;">
+                            <div class="carousel" data-slide="0">
+                                <div class="carousel-track">
+                                    <img src="Image/Menu.jpg" alt="Меню ресторана">
+                                    <img src="Image/Pita.jpg" alt="Пита">
+                                </div>
+                                <button class="carousel-btn prev" onclick="moveSlide(this, -1)">&#10094;</button>
+                                <button class="carousel-btn next" onclick="moveSlide(this, 1)">&#10095;</button>
+                            </div>
+                        </div>
+                        <div class="portfolio-body">
+                            <h4>Стилистическое оформление ресторана</h4>
+                            <div class="portfolio-info"><strong>Срок реализации:</strong> до 2 дней</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="roadmap-section" id="roadmap">
+        <div class="container">
+            <h2 class="section-title">Как мы будем <span>работать</span></h2>
+            <div class="roadmap-container">
+                <div class="roadmap-step">
+                    <h4>Бриф и ТЗ</h4>
+                    <p>Обсуждаем задачу, стиль и хронометраж. Фиксируем стоимость и сроки до старта.</p>
+                </div>
+                <div class="roadmap-step">
+                    <h4>Концепт и сценарий</h4>
+                    <p>Готовлю раскадровку и первые кадры. Согласовываем вектор движения.</p>
+                </div>
+                <div class="roadmap-step">
+                    <h4>Условия сотрудничества и оплата</h4>
+                    <p>Юридическое оформление, внесение предоплаты (50%), запуск работы.</p>
+                </div>
+                <div class="roadmap-step">
+                    <h4>Генерация и озвучка</h4>
+                    <p>Создаю видео, подбираю профессиональный голос.</p>
+                </div>
+                <div class="roadmap-step">
+                    <h4>Монтаж и сдача</h4>
+                    <p>Собираю финальный ролик, добавляю субтитры и музыку. Вношу 1 раунд правок бесплатно.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pricing-section" id="pricing">
+        <div class="container">
+            <h2 class="section-title">Прозрачные <span>тарифы</span></h2>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>Для видео-контента</h3>
+                    <table class="pricing-table">
+                        <tr>
+                            <td>30 сек</td>
+                            <td>5 000 ₽</td>
+                        </tr>
+                        <tr>
+                            <td>1 мин</td>
+                            <td>9 000 ₽</td>
+                        </tr>
+                        <tr>
+                            <td>1,5 мин</td>
+                            <td>14 000 ₽</td>
+                        </tr>
+                        <tr>
+                            <td>2 мин</td>
+                            <td>19 000 ₽</td>
+                        </tr>
+                        <tr>
+                            <td>... +30 сек</td>
+                            <td>+5 000 ₽</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="pricing-card" style="display: flex; flex-direction: column; justify-content: center;">
+                    <h3>Для изображений</h3>
+                    <p class="pricing-image-text">от 1 000 ₽ / шт.</p>
+                    <p class="pricing-image-discount">(скидка 10% от 5 шт.)</p>
+                </div>
+            </div>
+            <p class="pricing-disclaimer">Указанные цены не являются публичной офертой. Итоговая стоимость может быть скорректирована в зависимости от сложности проекта, стиля и количества правок. Фиксируем цену в договоре после согласования ТЗ.</p>
+        </div>
+    </section>
+
+    <section class="contacts" id="contacts">
+        <div class="container">
+            <h2>Готовы обсудить задачу?</h2>
+            <p>Напишите мне в Telegram. Отвечаю в течение 2 часов. Обсудим идею, рассчитаю сроки и стоимость до старта работ.</p>
+            <a href="https://t.me/sergei_detroit" target="_blank" class="btn">
+                <svg style="margin-right: 8px;" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                Написать в Telegram
+            </a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>© 2026 Сделано с любовью к ИИ. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Функция для работы карусели изображений
+        function moveSlide(btn, direction) {
+            const carousel = btn.closest('.carousel');
+            const track = carousel.querySelector('.carousel-track');
+            const slidesCount = track.children.length;
+            
+            let currentSlide = parseInt(carousel.getAttribute('data-slide'));
+            currentSlide = (currentSlide + direction + slidesCount) % slidesCount;
+            
+            carousel.setAttribute('data-slide', currentSlide);
+            track.style.transform = `translateX(-${currentSlide * 100}%)`;
+        }
+
+        // Функция открытия/закрытия мобильного меню
+        function toggleMenu() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        }
+
+        // Автоматическое закрытие меню при клике по ссылкам на мобильном
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.querySelector('.nav-links').classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
