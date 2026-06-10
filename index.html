@@ -365,8 +365,11 @@
         
         .carousel-track img {
             min-width: 100%;
+            max-width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
+            background-color: #050507;
+            display: block;
         }
         
         .carousel-btn {
@@ -852,10 +855,10 @@
                         <div class="media-container" style="height: 350px;">
                             <div class="carousel" data-slide="0">
                                 <div class="carousel-track">
-                                    <img src="Image/Image1.jpeg" alt="Арт 1">
-                                    <img src="Image/Image2.jpeg" alt="Арт 2">
+                                    <img src="Image/Image1.png" alt="Арт 1">
+                                    <img src="Image/Image2.png" alt="Арт 2">
                                     <img src="Image/Image3.jpeg" alt="Арт 3">
-                                    <img src="Image/Image4.jpeg" alt="Арт 4">
+                                    <img src="Image/Image4.png" alt="Арт 4">
                                     <img src="Image/Image5.jpeg" alt="Арт 5">
                                 </div>
                                 <button class="carousel-btn prev" onclick="moveSlide(this, -1)">&#10094;</button>
@@ -880,7 +883,7 @@
                         <div class="media-container" style="height: 350px;">
                             <div class="carousel" data-slide="0">
                                 <div class="carousel-track">
-                                    <img src="Image/Menu.jpeg" alt="Меню ресторана">
+                                    <img src="Image/Menu.png" alt="Меню ресторана">
                                     <img src="Image/Pita.jpeg" alt="Пита">
                                 </div>
                                 <button class="carousel-btn prev" onclick="moveSlide(this, -1)">&#10094;</button>
